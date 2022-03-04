@@ -37,7 +37,6 @@ public class UserController {
     public User modifyUser(@RequestBody User user, @PathVariable("id") Long id){
         User user1 = user.builder()
                         .id(id)
-                        .userId(user.getUserId())
                         .email(user.getEmail())
                         .pwd(user.getPwd())
                         .name(user.getName())
