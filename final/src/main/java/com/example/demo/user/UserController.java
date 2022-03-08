@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @CrossOrigin(origins = "http://localhost:3000")
@@ -41,18 +43,24 @@ public class UserController {
     // 유저 등록
     @PostMapping("/users/signup")
     @ResponseBody
-    public String saveUser(@ModelAttribute User user){
+    public Map<String, Object> saveUser(@ModelAttribute User user){
         System.out.println("이메일 : " + user.getName());
-
+        
+        Map<String, Object> result = new HashMap<>();
         User dbUser = userRepository.findByEmail(user.getEmail());
 
         if(dbUser != null){         // DB에 user가 있으면
             System.out.println("회원가입 실패"); 
+            result.put("msg", "🤦‍♂️회원가입 실패🤦‍♂️");
+			result.put("code", 201);
         }else{                      // DB에 user가 없으면
             userRepository.save(user);
+            System.out.println("회원가입 성공"); 
+            result.put("msg", "👊회원가입 성공👊");
+			result.put("code", 200);
             System.out.println(userRepository.findAll());
         }
-        return "redirect:/";
+        return result;
     }
 
     // 유저 수정
