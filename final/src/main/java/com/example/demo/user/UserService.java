@@ -45,4 +45,11 @@ public class UserService {
     public void deleteUser(Long id){
         userRepository.deleteById(id);
     }
+
+
+    @Transactional
+    public boolean checkEmail(String email){
+        return userRepository.existsByEmail(email);
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.example.demo.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import lombok.RequiredArgsConstructor;
 
 import java.util.HashMap;
 import java.util.List;
@@ -63,12 +63,23 @@ public class UserController {
     }
 
     // 중복 체크
-    @GetMapping("/users/signup")
-    public List<User> checkEmail(){
-        List<User> userList = userRepository.findAll();
-        System.out.println(userList);
-        return userList;
+    // @GetMapping("/users/signup")
+    // public List<User> checkEmail(){
+    //     List<User> userList = userRepository.findAll();
+    //     System.out.println(userList);
+    //     return userList;
+    // }
+
+
+    @GetMapping("/users/{email}/signup")
+    public  ResponseEntity <Boolean> checkEmail (@PathVariable String email){
+
+        return ResponseEntity.ok(userService.checkEmail(email));
     }
+
+
+
+
 
     // 유저 수정
     @PutMapping("/users/{id}")
@@ -89,4 +100,34 @@ public class UserController {
     public void deleteUser(@PathVariable("id") Long id){
         userService.deleteUser(id);
     }
+
+
+
+    //유저 로그인
+    @GetMapping("/users/signin")
+    public String login() {
+        return "log";
+    }
+
+    @PostMapping("/users/signin")
+    @ResponseBody
+    public Map<String, Object> loginPost(@ModelAttribute User user) {
+        User dbUser = userRepository.findByEmailAndPwd(user.getEmail(),user.getPwd());
+        Map<String, Object> map = new HashMap<>();
+        if (dbUser != null) {
+            map.put("name", dbUser.getName());
+            map.put("Code", dbUser);
+            // map.put("code", 200);
+            map.put("message", "success");
+        } else {
+            map.put("code", 201);
+            map.put("message", "fail");
+        }
+
+        return map;
+    }
+
+
+    //
+
 }
