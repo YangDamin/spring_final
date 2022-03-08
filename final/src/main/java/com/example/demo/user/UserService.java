@@ -1,6 +1,7 @@
 package com.example.demo.user;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import lombok.AllArgsConstructor;
 import java.util.List;
@@ -9,6 +10,7 @@ import javax.transaction.Transactional;
 
 @Service
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserService {
     
     private final UserRepository userRepository;
@@ -28,6 +30,7 @@ public class UserService {
     // 유저 등록
     @Transactional
     public User saveUser(User user){
+        
         return userRepository.save(user);
     }
 
