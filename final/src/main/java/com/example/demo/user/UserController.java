@@ -58,9 +58,16 @@ public class UserController {
             System.out.println("회원가입 성공"); 
             result.put("msg", "👊회원가입 성공👊");
 			result.put("code", 200);
-            System.out.println(userRepository.findAll());
         }
         return result;
+    }
+
+    // 중복 체크
+    @GetMapping("/users/signup")
+    public List<User> checkEmail(){
+        List<User> userList = userRepository.findAll();
+        System.out.println(userList);
+        return userList;
     }
 
     // 유저 수정
