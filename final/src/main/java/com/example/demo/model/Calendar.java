@@ -1,3 +1,4 @@
+package com.example.demo.model;
 // package com.example.demo.calendar;
 
 // import javax.persistence.Entity;

@@ -1,12 +1,16 @@
-package com.example.demo.user;
+package com.example.demo.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import lombok.AllArgsConstructor;
+
 import java.util.List;
 
 import javax.transaction.Transactional;
+
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
 
 @Service
 @AllArgsConstructor
