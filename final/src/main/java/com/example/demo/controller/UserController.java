@@ -118,15 +118,17 @@ public class UserController {
         return "users/signin";
     }
 
+
     @PostMapping("/users/signin")
     @ResponseBody
     public Map<String, Object> loginPost(@ModelAttribute User user) {
-        User dbUser = userRepository.findByEmailAndPwd(user.getEmail(),user.getPwd());
+        User dbUser = userRepository.findByEmailAndPwd(user.getEmail(),
+                user.getPwd());
         Map<String, Object> map = new HashMap<>();
         if (dbUser != null) {
             map.put("name", dbUser.getName());
             map.put("Code", dbUser);
-            // map.put("code", 200);
+            map.put("code", 200);
             map.put("message", "success");
         } else {
             map.put("code", 201);
@@ -136,8 +138,7 @@ public class UserController {
         return map;
     }
 
-
-    //
+    
 // ========================== Kakao Login ==============================
 
 KakaoAPI kakaoApi = new KakaoAPI();
