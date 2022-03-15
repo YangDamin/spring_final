@@ -113,13 +113,13 @@ public class UserController {
 
 
     //유저 로그인
-    @GetMapping("/users/signin")
+    @GetMapping("/log")
     public String login() {
-        return "users/signin";
+        return "log";
     }
 
 
-    @PostMapping("/users/signin")
+    @PostMapping("/log")
     @ResponseBody
     public Map<String, Object> loginPost(@ModelAttribute User user) {
         User dbUser = userRepository.findByEmailAndPwd(user.getEmail(),
