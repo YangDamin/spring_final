@@ -9,6 +9,17 @@
             "mainClass": "com.example.demo.FinalApplication",
             "projectName": "final",
             "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-FinalApplication<demo>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.example.demo.FinalApplication",
+            "projectName": "demo",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
