@@ -1,4 +1,4 @@
-package com.example.demo.user;
+package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,12 +11,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.service.KakaoAPI;
+import com.example.demo.service.UserService;
 
 @Controller
 @CrossOrigin(origins = "http://localhost:3000")
@@ -106,7 +115,7 @@ public class UserController {
     //유저 로그인
     @GetMapping("/users/signin")
     public String login() {
-        return "log";
+        return "users/signin";
     }
 
     @PostMapping("/users/signin")
@@ -129,5 +138,39 @@ public class UserController {
 
 
     //
+// ========================== Kakao Login ==============================
+
+KakaoAPI kakaoApi = new KakaoAPI();
+
+@RequestMapping(value = "/login")
+public ModelAndView login(@RequestParam("code") String code, HttpSession session) {
+    ModelAndView mav = new ModelAndView();
+    // 1번 인증코드 요청 전달
+    String accessToken = kakaoApi.getAccessToken(code);
+    // 2번 인증코드로 토큰 전달
+    HashMap<String, Object> userInfo = kakaoApi.getUserInfo(accessToken);
+
+    System.out.println("login info : " + userInfo.toString());
+
+    if (userInfo.get("email") != null) {
+        session.setAttribute("userId", userInfo.get("email"));
+        session.setAttribute("accessToken", accessToken);
+    }
+    mav.addObject("userId", userInfo.get("email"));
+    mav.setViewName("index");
+    return mav;
+}
+
+@RequestMapping(value = "/logout")
+public ModelAndView logout(HttpSession session) {
+    ModelAndView mav = new ModelAndView();
+
+    kakaoApi.kakaoLogout((String) session.getAttribute("accessToken"));
+    session.removeAttribute("accessToken");
+    session.removeAttribute("userId");
+    mav.setViewName("index");
+    return mav;
+}
+
 
 }
