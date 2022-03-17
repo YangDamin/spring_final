@@ -37,6 +37,9 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    HttpSession session;
+
     // 전체 유저 목록 조회
     @GetMapping("/users")
     public List<User> getUsers(){
@@ -71,23 +74,6 @@ public class UserController {
         return result;
     }
 
-    // 중복 체크
-    // @GetMapping("/users/signup")
-    // public List<User> checkEmail(){
-    //     List<User> userList = userRepository.findAll();
-    //     System.out.println(userList);
-    //     return userList;
-    // }
-
-
-    @GetMapping("/users/{email}/signup")
-    public  ResponseEntity <Boolean> checkEmail (@PathVariable String email){
-
-        return ResponseEntity.ok(userService.checkEmail(email));
-    }
-
-
-
 
 
     // 유저 수정
@@ -112,34 +98,42 @@ public class UserController {
 
 
 
-    //유저 로그인
-    @GetMapping("/users/signin")
-    public String login() {
-        return "users/signin";
-    }
 
+    // 로그인
     @PostMapping("/users/signin")
     @ResponseBody
-    public Map<String, Object> loginPost(@ModelAttribute User user) {
-        User dbUser = userRepository.findByEmailAndPwd(user.getEmail(),user.getPwd());
-        Map<String, Object> map = new HashMap<>();
-        if (dbUser != null) {
-            map.put("name", dbUser.getName());
-            map.put("Code", dbUser);
-            // map.put("code", 200);
-            map.put("message", "success");
-        } else {
-            map.put("code", 201);
-            map.put("message", "fail");
-        }
+    public Map<String, Object> login(@ModelAttribute User user) {
+        Map<String, Object> result = new HashMap<>();
+        User loginUser = userRepository.findByEmailAndPwd(user.getEmail(), user.getPwd());
+        System.out.println(user.getEmail() + "\n" + user.getPwd());
 
-        return map;
+        if (loginUser != null) { // DB에 user가 있으면
+            session.setAttribute("user_info", loginUser);
+            System.out.println("로그인 성공");
+            result.put("user", loginUser);
+            result.put("msg", "로그인 성공");
+            result.put("code", 200);
+        } else { // // DB에 user가 없으면
+            System.out.println("로그인 실패");
+            result.put("msg", "로그인 실패");
+            result.put("code", 400);
+        }
+        return result;
+
     }
 
+    // 로그아웃
+    @GetMapping("/users/logout")
+	public String logout() {
+		session.invalidate();
+		return "redirect:/";
+	}
 
-    //
+
 // ========================== Kakao Login ==============================
 
+
+//카카오 로그인
 KakaoAPI kakaoApi = new KakaoAPI();
 
 @RequestMapping(value = "/login")
@@ -161,6 +155,8 @@ public ModelAndView login(@RequestParam("code") String code, HttpSession session
     return mav;
 }
 
+
+//카카오 로그아웃
 @RequestMapping(value = "/logout")
 public ModelAndView logout(HttpSession session) {
     ModelAndView mav = new ModelAndView();

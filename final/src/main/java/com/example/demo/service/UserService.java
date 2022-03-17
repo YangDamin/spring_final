@@ -50,10 +50,4 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-
-    @Transactional
-    public boolean checkEmail(String email){
-        return userRepository.existsByEmail(email);
-    }
-
 }
