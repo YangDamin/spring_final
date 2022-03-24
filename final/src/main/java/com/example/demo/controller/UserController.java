@@ -66,7 +66,6 @@ public class UserController {
     @PostMapping("/users/signup")
     @ResponseBody
     public Map<String, Object> saveUser(@ModelAttribute User user){
-        System.out.println("이메일 : " + user.getName());
         
         Map<String, Object> result = new HashMap<>();
         User dbUser = userRepository.findByEmail(user.getEmail());
@@ -85,6 +84,22 @@ public class UserController {
     }
 
 
+    // 비밀번호 변경
+    @PostMapping("/mypage")
+    @ResponseBody
+    public String modifyPw(@ModelAttribute User user){
+        User modifyUser = userRepository.findByEmail(user.getEmail());
+
+        if(modifyUser != null){
+            modifyUser.setPwd(user.getPwd());
+            userRepository.save(modifyUser);
+        }
+        System.out.println("비밀번호 : " + user.getPwd());
+        System.out.println("이메일 : " + user.getEmail());
+        System.out.println(modifyUser);
+        
+        return user.getPwd();
+    }
 
     // 유저 수정
     @PutMapping("/users/{id}")
