@@ -188,28 +188,28 @@ public class UserController {
 //     return mav;
 // }
 
-// @RequestMapping(value="/oauth/kakao", method=RequestMethod.GET)
-// public String kakaoLogin(@RequestParam(value = "code", required = false) String code) throws Exception {
-//     System.out.println("#########" + code);
-//     String access_Token = userService.getAccessToken(code);
-//     HashMap<String, Object> userInfo = userService.getUserInfo(access_Token);
-//     System.out.println("###access_Token#### : " + access_Token);
-//     System.out.println("###nickname#### : " + userInfo.get("nickname"));
-//     System.out.println("###email#### : " + userInfo.get("email"));
-//     return "redirect:/";
-//     }
+@RequestMapping(value="/oauth/kakao", method=RequestMethod.GET)
+public String kakaoLogin(@RequestParam(value = "code", required = false) String code) throws Exception {
+    System.out.println("#########" + code);
+    String access_Token = userService.getAccessToken(code);
+    HashMap<String, Object> userInfo = userService.getUserInfo(access_Token);
+    System.out.println("###access_Token#### : " + access_Token);
+    System.out.println("###nickname#### : " + userInfo.get("nickname"));
+    System.out.println("###email#### : " + userInfo.get("email"));
+    return "redirect:/";
+    }
 
 
-	@RequestMapping(value="/oauth/kakao", method=RequestMethod.GET)
-	public String kakaoLogin(@RequestParam(value = "code", required = false) String code) throws Exception {
-		System.out.println("#########" + code);
+	// @RequestMapping(value="/oauth/kakao", method=RequestMethod.GET)
+	// public String kakaoLogin(@RequestParam(value = "code", required = false) String code) throws Exception {
+	// 	System.out.println("#########" + code);
         
-		// 위에서 만든 코드 아래에 코드 추가
-		String access_Token = userService.getAccessToken(code);
-		System.out.println("###access_Token#### : " + access_Token);
+	// 	// 위에서 만든 코드 아래에 코드 추가
+	// 	String access_Token = userService.getAccessToken(code);
+	// 	System.out.println("###access_Token#### : " + access_Token);
         
-		return "/";
-    	}
+	// 	return "/";
+    // 	}
 
 //     @Controller
 // public class NaverLogin{
