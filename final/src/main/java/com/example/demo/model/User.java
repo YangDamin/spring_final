@@ -23,5 +23,5 @@ public class User {
     private String email;
     private String pwd;
     private String name;
-    private String phoneNum;
+    private String phone;
 }
