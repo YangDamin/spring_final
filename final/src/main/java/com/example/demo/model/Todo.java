@@ -1,14 +1,13 @@
 package com.example.demo.model;
 
-import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,17 +19,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Todo {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String email;
-    private String pwd;
-    private String name;
-    private String phone;
+    
+    private String content;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    List<Post> postList;
+    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User user;
 }

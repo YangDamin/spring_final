@@ -170,7 +170,6 @@ public class UserController {
 
     // 로그아웃
     @GetMapping("/users/logout")
-<<<<<<< HEAD
 	public String logout() {
 		session.invalidate();
 		return "redirect:/";
@@ -211,16 +210,9 @@ public class UserController {
 //     mav.setViewName("index");
 //     return mav;
 // }
-=======
-    public String logout() {
-        session.invalidate();
-        return "redirect:/";
-    }
->>>>>>> 66bd80a09e40bc71ee097782eeabbcbe27259e00
 
     // ========================== Kakao Login ==============================
 
-<<<<<<< HEAD
 //카카오 로그아웃
 // @RequestMapping(value = "/logout")
 // public ModelAndView logout(HttpSession session) {
@@ -304,40 +296,3 @@ public String kakaoLogin(@RequestParam(value = "code", required = false) String 
     
 }
 
-=======
-    // 카카오 로그인
-    KakaoAPI kakaoApi = new KakaoAPI();
-
-    @RequestMapping(value = "/login")
-    public ModelAndView login(@RequestParam("code") String code, HttpSession session) {
-        ModelAndView mav = new ModelAndView();
-        // 1번 인증코드 요청 전달
-        String accessToken = kakaoApi.getAccessToken(code);
-        // 2번 인증코드로 토큰 전달
-        HashMap<String, Object> userInfo = kakaoApi.getUserInfo(accessToken);
-
-        System.out.println("login info : " + userInfo.toString());
-
-        if (userInfo.get("email") != null) {
-            session.setAttribute("userId", userInfo.get("email"));
-            session.setAttribute("accessToken", accessToken);
-        }
-        mav.addObject("userId", userInfo.get("email"));
-        mav.setViewName("index");
-        return mav;
-    }
-
-    // 카카오 로그아웃
-    @RequestMapping(value = "/logout")
-    public ModelAndView logout(HttpSession session) {
-        ModelAndView mav = new ModelAndView();
-
-        kakaoApi.kakaoLogout((String) session.getAttribute("accessToken"));
-        session.removeAttribute("accessToken");
-        session.removeAttribute("userId");
-        mav.setViewName("index");
-        return mav;
-    }
-
-}
->>>>>>> 66bd80a09e40bc71ee097782eeabbcbe27259e00

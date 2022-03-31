@@ -19,8 +19,9 @@ package com.example.demo.model;
 //     @Id
 //     @GeneratedValue
 //     private long id;
+//     private String title;
+//     private Date start;
+//     private Date end;
+//     private boolean allday;
 
-//     private String date;
-//     private String content;
-//     private String todoList;
 // }
