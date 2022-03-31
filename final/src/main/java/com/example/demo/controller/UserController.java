@@ -231,13 +231,6 @@ public class UserController {
 
     }
 
-    // 로그아웃
-    @GetMapping("/users/logout")
-    public String logout() {
-        session.invalidate();
-        return "redirect:/";
-    }
-
     // ========================== Kakao Login ==============================
 
     // 카카오 로그인
