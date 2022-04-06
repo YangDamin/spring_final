@@ -29,7 +29,11 @@ public class User {
     private String pwd;
     private String name;
     private String phone;
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> e3f0c8ff7babf79ea2973b0722723420c5666026
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     List<Post> postList;
