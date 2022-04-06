@@ -1,5 +1,7 @@
 // package com.example.demo.controller;
 
+// import org.springframework.stereotype.Controller;
+
 // import java.io.BufferedReader;
 // import java.io.IOException;
 // import java.io.InputStreamReader;
@@ -9,6 +11,7 @@
 // import com.google.gson.JsonElement;
 // import com.google.gson.JsonParser;
 
+// import org.springframework.web.bind.annotation.CrossOrigin;
 // import org.springframework.web.bind.annotation.GetMapping;
 // import org.springframework.web.bind.annotation.RequestMapping;
 // import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +20,7 @@
 
 // import lombok.AllArgsConstructor;
 
+
 // @RestController
 // @AllArgsConstructor
 // @RequestMapping("/oauth")
@@ -24,7 +28,7 @@
 
 //     /**
 //      * 카카오 callback
-//      * [GET] /oauth/kakao/callback
+//      * [GET] /oauth/kakao
 //      */
 //     @ResponseBody
 //     @GetMapping("/kakao")

@@ -34,3 +34,5 @@ public class User {
     @OneToMany(mappedBy = "user")
     List<Post> postList;
 }
+
+

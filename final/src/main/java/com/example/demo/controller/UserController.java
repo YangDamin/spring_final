@@ -34,11 +34,29 @@ import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.KakaoAPI;
 import com.example.demo.service.UserService;
-import com.github.scribejava.core.model.OAuth2AccessToken;
 
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+ 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
+
+
 @Controller
 @CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
@@ -298,15 +316,140 @@ public class UserController {
 //     return mav;
 // }
 
-@RequestMapping(value="/oauth/kakao", method=RequestMethod.GET)
-public String kakaoLogin(@RequestParam(value = "code", required = false) String code) throws Exception {
-    System.out.println("#########" + code);
-    String access_Token = userService.getAccessToken(code);
-    HashMap<String, Object> userInfo = userService.getUserInfo(access_Token);
-    System.out.println("###access_Token#### : " + access_Token);
-    System.out.println("###nickname#### : " + userInfo.get("nickname"));
-    System.out.println("###email#### : " + userInfo.get("email"));
-    return "redirect:/";
+// @RequestMapping(value="/oauth/kakao", method=RequestMethod.GET)
+// public String kakaoLogin(@RequestParam(value = "code", required = false) String code) throws Exception {
+//     System.out.println("#########" + code);
+//     String access_Token = userService.getAccessToken(code);
+//     HashMap<String, Object> userInfo = userService.getUserInfo(access_Token);
+//     System.out.println("###access_Token#### : " + access_Token);
+//     System.out.println("###nickname#### : " + userInfo.get("nickname"));
+//     System.out.println("###email#### : " + userInfo.get("email"));
+//     return "redirect:/";
+//     }
+
+// public static JsonNode getKakaoAccessToken(String code) {
+
+// 		final String RequestUrl = "https://kauth.kakao.com/oauth/token"; // Host
+// 		final List<NameValuePair> postParams = new ArrayList<NameValuePair>();
+
+// 		postParams.add(new BasicNameValuePair("grant_type", "authorization_code"));
+// 		postParams.add(new BasicNameValuePair("client_id", "85f4a0fdfed755ce3d9b2b081af17f44")); // REST API KEY
+// 		postParams.add(new BasicNameValuePair("redirect_uri", "http://52.79.242.155/MS/kakaologin")); // 리다이렉트 URI
+// 		postParams.add(new BasicNameValuePair("code", code)); // 로그인 과정중 얻은 code 값
+
+// 		final HttpClient client = HttpClientBuilder.create().build();
+// 		final HttpPost post = new HttpPost(RequestUrl);
+
+// 		JsonNode returnNode = null;
+
+// 		try {
+// 			post.setEntity(new UrlEncodedFormEntity(postParams));
+
+// 			final HttpResponse response = client.execute(post);
+// 			final int responseCode = response.getStatusLine().getStatusCode();
+
+// 			System.out.println("\nSending 'POST' request to URL : " + RequestUrl);
+// 			System.out.println("Post parameters : " + postParams);
+// 			System.out.println("Response Code : " + responseCode);
+
+// 			// JSON 형태 반환값 처리
+// 			ObjectMapper mapper = new ObjectMapper();
+
+// 			returnNode = mapper.readTree(response.getEntity().getContent());
+
+// 		} catch (UnsupportedEncodingException e) {
+// 			e.printStackTrace();
+// 		} catch (ClientProtocolException e) {
+// 			e.printStackTrace();
+// 		} catch (IOException e) {
+// 			e.printStackTrace();
+// 		} finally {
+// 		}
+
+// 		return returnNode;
+// 	}
+
+
+// @RequestMapping(value = "/kakao", produces = "application/json", method = RequestMethod.GET)
+// public String kakaoLogin(@RequestParam("code")String code, RedirectAttributes ra, HttpSession session, 
+//         HttpServletResponse response) throws IOException{
+//             System.out.println("kakao code : " + code);
+
+//             return "redirect:/";
+//         }
+
+
+
+ 
+
+//     public static JsonNode getKakaoAccessToken(String code) {
+ 
+//         final String RequestUrl = "https://kauth.kakao.com/oauth/token"; // Host
+//         final List<NameValuePair> postParams = new ArrayList<NameValuePair>();
+ 
+//         postParams.add(new BasicNameValuePair("grant_type", "authorization_code"));
+//         postParams.add(new BasicNameValuePair("client_id", "04c9a760d057d6ccbc3cdb399201c2a3")); // REST API KEY
+//         postParams.add(new BasicNameValuePair("redirect_uri", "http://localhost:8080/oauth/kakao")); // 리다이렉트 URI
+//         postParams.add(new BasicNameValuePair("code", code)); // 로그인 과정중 얻은 code 값
+ 
+//         final HttpClient client = HttpClientBuilder.create().build();
+//         final HttpPost post = new HttpPost(RequestUrl);
+ 
+//         JsonNode returnNode = null;
+ 
+//         try {
+//             post.setEntity(new UrlEncodedFormEntity(postParams));
+ 
+//             final HttpResponse response = client.execute(post);
+//             final int responseCode = response.getStatusLine().getStatusCode();
+ 
+//             System.out.println("\nSending 'POST' request to URL : " + RequestUrl);
+//             System.out.println("Post parameters : " + postParams);
+//             System.out.println("Response Code : " + responseCode);
+ 
+//             // JSON 형태 반환값 처리
+//             ObjectMapper mapper = new ObjectMapper();
+ 
+//             returnNode = mapper.readTree(response.getEntity().getContent());
+ 
+//         } catch (UnsupportedEncodingException e) {
+//             e.printStackTrace();
+//         } catch (ClientProtocolException e) {
+//             e.printStackTrace();
+//         } catch (IOException e) {
+//             e.printStackTrace();
+//         } finally {
+//         }
+//         JsonNode accessToken;
+ 
+//         // JsonNode트리형태로 토큰받아온다
+//         JsonNode jsonToken = KakaoAccessToken.getKakaoAccessToken(code);
+//         // 여러 json객체 중 access_token을 가져온다
+//         accessToken = jsonToken.get("access_token");
+ 
+//         System.out.println("access_token : " + accessToken);
+
+
+//         return returnNode;
+//     }
+
+
+// @ResponseBody
+//     @GetMapping("/kakao")
+//     public void  kakaoCallback(@RequestParam String code) {
+
+//             String access_Token = userService.getKaKaoAccessToken(code);
+//             userService.createKakaoUser(access_Token);
+
+//     }
+
+
+@ResponseBody
+    @GetMapping("/kakao")
+    public void  kakaoCallback(@RequestParam String code) {
+
+        System.out.println("kakao code : " + code);
+
     }
 
 
@@ -366,6 +509,16 @@ public String kakaoLogin(@RequestParam(value = "code", required = false) String 
 //         session.setAttribute("result",apiResult);
 //         return "redirect:http://13.124.70.197:8080/base";
 //     }
+
+
+// @ResponseBody
+// @GetMapping("/kakao")
+// public void  kakaoCallback(@RequestParam String code) {
+
+//         String access_Token = userService.getKaKaoAccessToken(code);
+//         userService.createKakaoUser(access_Token);
+
+// }
     
 }
 
