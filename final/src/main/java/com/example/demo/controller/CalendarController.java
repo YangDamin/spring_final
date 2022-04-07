@@ -1,0 +1,44 @@
+package com.example.demo.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.example.demo.model.Calendar;
+import com.example.demo.repository.CalendarRepository;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.service.CalendarService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+@CrossOrigin(origins = "http://localhost:3000")
+public class CalendarController {
+    @Autowired
+    CalendarService calendarservice;
+
+    @Autowired
+    UserRepository userRepository;
+
+
+    // 일정 추가
+    @PostMapping("/addCalendar")
+    @ResponseBody
+    public void addSchedule(String email, String title, String start, String end){
+        calendarservice.addSchedule(email, title, start, end);
+    }
+
+    // 일정 달력에 보여주기
+    @PostMapping("/calendar")
+    @ResponseBody
+    public List<Calendar> showSchedule(String email){
+        System.out.println(email);
+        return calendarservice.showSchedule(email);
+    }
+}
