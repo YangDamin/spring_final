@@ -259,7 +259,6 @@ public class UserController {
 
     }
 
-<<<<<<< HEAD
     // 로그아웃
     @GetMapping("/users/logout")
 	public String logout() {
@@ -303,8 +302,6 @@ public class UserController {
 //     return mav;
 // }
 
-=======
->>>>>>> e3f0c8ff7babf79ea2973b0722723420c5666026
     // ========================== Kakao Login ==============================
 
 //카카오 로그아웃
