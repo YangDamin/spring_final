@@ -1,14 +1,43 @@
 package com.example.demo.service;
-// package com.example.demo.calendar;
 
-// import org.springframework.stereotype.Service;
+import javax.transaction.Transactional;
 
-// import lombok.AllArgsConstructor;
+import com.example.demo.model.Calendar;
+import com.example.demo.model.User;
+import com.example.demo.repository.CalendarRepository;
+import com.example.demo.repository.UserRepository;
 
-// @Service
-// @AllArgsConstructor
-// public class CalendarService {
-//     private final CalendarRepository calendarRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-    
-// }
+import java.util.List;
+
+@Service
+@Transactional
+public class CalendarService {
+    @Autowired
+    CalendarRepository calendarRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    // 달력 일정 추가
+    public void addSchedule(String email, String title, String start, String end){
+        User findUser = userRepository.findByEmail(email);
+        Calendar calendar = Calendar.createCalendar(findUser, title, start, end);
+
+        calendarRepository.save(calendar);
+    }
+
+    // 일정 달력에 보여주기
+    public List<Calendar> showSchedule(String email){
+        User findUser = userRepository.findByEmail(email);
+        List<Calendar> scheduleList = calendarRepository.findByUser(findUser);
+        return scheduleList;
+    }
+
+    // 일정 삭제
+    public void deleteSchedule(Long id){
+        calendarRepository.deleteById(id);
+    }
+}
