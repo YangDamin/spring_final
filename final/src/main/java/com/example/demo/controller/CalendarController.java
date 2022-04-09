@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,5 +41,12 @@ public class CalendarController {
     public List<Calendar> showSchedule(String email){
         System.out.println(email);
         return calendarservice.showSchedule(email);
+    }
+
+    // 일정 삭제
+    @DeleteMapping("/calendar")
+    @ResponseBody
+    public void deleteSchedule(Long id){
+        calendarservice.deleteSchedule(id);
     }
 }

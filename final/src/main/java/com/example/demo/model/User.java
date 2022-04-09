@@ -30,7 +30,7 @@ public class User {
     private String name;
     private String phone;
     
-    @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    List<Post> postList;
+    // @JsonIgnore
+    // @OneToMany(mappedBy = "user")
+    // List<Post> postList;
 }

@@ -29,9 +29,15 @@ public class CalendarService {
         calendarRepository.save(calendar);
     }
 
+    // 일정 달력에 보여주기
     public List<Calendar> showSchedule(String email){
         User findUser = userRepository.findByEmail(email);
         List<Calendar> scheduleList = calendarRepository.findByUser(findUser);
         return scheduleList;
+    }
+
+    // 일정 삭제
+    public void deleteSchedule(Long id){
+        calendarRepository.deleteById(id);
     }
 }
