@@ -61,7 +61,7 @@ public class PostController {
     //     return response;
     // }
 
-    //게시글 전체 불러오기
+    //게시글 전체 불러오기//
     @GetMapping("/posts")
     @ResponseBody
     public List<Post> postList(Long id) {
