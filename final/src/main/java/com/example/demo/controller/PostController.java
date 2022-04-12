@@ -44,27 +44,16 @@ public class PostController {
     }
 
     //상세정보
-    @GetMapping("/post/detail/{id}")
+    @GetMapping("/post/detail/{postid}")
     @ResponseBody
-    public Post postDetail( @PathVariable("id") Long id) {
-        Optional<Post> opt = postRepository.findById(id);
-        Post post = opt.get();
-        // 조회수 증가
-//         post.setViewCnt(post.getViewCnt() + 1);
-//         postRepository.save(post);
-//         return opt.get();
-//     }
-
-//     public Post cardDetail(@PathVariable Long recipeId){
-//         Post post = new Post();
-//         response.add("data",cardService.showDetailedRecipe(recipeId));
-//         return response;
-//     }
-
-//     // 게시글 전체 불러오기
+    public Post postDetail( @PathVariable("postid") Long postid) {
+        Optional<Post> opt = postRepository.findById(postid);
+        // Post post = opt.get();
+        // //조회수 증가
         // post.setViewCnt(post.getViewCnt() + 1);
         // postRepository.save(post);
         return opt.get();
+
     }
 
     //게시글 전체 불러오기//
@@ -78,6 +67,7 @@ public class PostController {
 
     }
 
+    
     @GetMapping("/search/{search}")
     public List<Post> searchBook(@PathVariable("search") String search){
       List<Post> postBySearch = postRepository.findByTitleContaining(search);
