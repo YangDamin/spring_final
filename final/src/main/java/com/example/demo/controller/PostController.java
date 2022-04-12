@@ -38,20 +38,20 @@ public class PostController {
     //글 작성
     @PostMapping("/write")
     @ResponseBody
-    public void writeContent(String userEmail, String title, String content, String date, String videoPath ,Long viewCnt) {
+    public void writeContent(String userEmail, String title, String content, String date, String videoPath) {
 
-        postservice.writeContent(userEmail, title, content, date, videoPath , viewCnt);
+        postservice.writeContent(userEmail, title, content, date, videoPath);
     }
 
     //상세정보
-    @GetMapping("/post/detail/{id}")
+    @GetMapping("/post/detail/{postid}")
     @ResponseBody
-    public Post postDetail( @PathVariable("id") Long id) {
-        Optional<Post> opt = postRepository.findById(id);
-        Post post = opt.get();
+    public Post postDetail( @PathVariable("postid") Long postid) {
+        Optional<Post> opt = postRepository.findById(postid);
+        // Post post = opt.get();
         // 조회수 증가
-        post.setViewCnt(post.getViewCnt() + 1);
-        postRepository.save(post);
+        // post.setViewCnt(post.getViewCnt() + 1);
+        // postRepository.save(post);
         return opt.get();
     }
 
@@ -61,7 +61,7 @@ public class PostController {
     //     return response;
     // }
 
-    //게시글 전체 불러오기//
+    //게시글 전체 불러오기
     @GetMapping("/posts")
     @ResponseBody
     public List<Post> postList(Long id) {
@@ -72,5 +72,6 @@ public class PostController {
 
     }
 
+    
 
 }
