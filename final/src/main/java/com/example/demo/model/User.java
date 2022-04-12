@@ -1,11 +1,9 @@
 package com.example.demo.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -22,15 +20,18 @@ import lombok.NoArgsConstructor;
 public class User {
     
     @Id
-    @GeneratedValue
-    private long id;
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @Column(name = "user_id")
+    private Long id;
     private String email;
     private String pwd;
     private String name;
     private String phone;
     
-    // @JsonIgnore
-    // @OneToMany(mappedBy = "user")
-    // List<Post> postList;
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "user")
+//    @JoinColumn(name = "USER_ID")
+//    List<Post> postList = new ArrayList<>();
 }
+
+

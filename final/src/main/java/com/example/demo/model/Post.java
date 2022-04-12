@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,22 +28,27 @@ public class Post {
 
     private String title;
     private String content;
+
     private String date;
 
     private long like;
     private boolean open;
-    private long view;
-    
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    // private long viewCnt;
+    private String videoPath;
+    private Long userId;
 
-    public static Post createPost(User user, String title, String content, String date){
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    private User user;
+
+    public static Post createPost(Long userId, String title, String content, String date, String videoPath){
         Post post = new Post();
-        post.setUser(user);
+        post.setUserId(userId);
         post.setTitle(title);
         post.setContent(content);
         post.setDate(date);
+        post.setVideoPath(videoPath);
+        // post.setViewCnt(viewCnt);
         return post;
     }
 
