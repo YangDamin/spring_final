@@ -130,11 +130,12 @@ public class UserController {
         return userService.modifyUser(user1);
     }
 
-    // 유저 삭제
-    @DeleteMapping("/users/{id}")
-    public void deleteUser(@PathVariable("id") Long id) {
-        userService.deleteUser(id);
-    }
+    // 탈퇴
+    // @DeleteMapping("/mypage")
+    // public void deleteUser(Long id) {
+    //     System.out.println(id);
+    //     userRepository.deleteById(id);
+    // }
 
     // 이메일 찾기
     @PostMapping("/users/findEmail")
