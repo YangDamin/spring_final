@@ -21,9 +21,7 @@ import com.example.demo.model.Post;
 import com.example.demo.repository.PostRepository;
 
 import com.example.demo.service.PostService;
-// import com.example.demo.service.S3Service;
-// import com.example.demo.service.GalleryService;
-// import com.example.demo.dto.GalleryDto;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,16 +31,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class PostController {
     @Autowired
     PostService postservice;
-    
-    // @Autowired
-    // S3Service s3Service;
-
-    // @Autowired
-    // GalleryService galleryService;
 
     @Autowired
     PostRepository postRepository;
 
+    //글 작성
     @PostMapping("/write")
     @ResponseBody
     public void writeContent(String userEmail, String title, String content, String date, String videoPath ,Long viewCnt) {
@@ -50,36 +43,25 @@ public class PostController {
         postservice.writeContent(userEmail, title, content, date, videoPath , viewCnt);
     }
 
-
-    // @GetMapping("/board")
-    // @ResponseBody
-    // public List<FreeBoard> freeBoardList() {
-    //     Sort sort = Sort.by(Order.desc("id"));
-    //     List<FreeBoard> list = freeBoardRepository.findAll(sort);
-    //     return list;
-
-    // }
-
-        
     //상세정보
-    @GetMapping("/post/detail/{postid}")
+    @GetMapping("/post/detail/{id}")
     @ResponseBody
-    public Post postDetail( @PathVariable("postid") Long postid) {
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@");
-        System.out.println(postid);
-        Optional<Post> opt = postRepository.findById(postid);
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@"+opt);
-        // Post post = opt.get();
-        //조회수 증가
-        // post.setViewCnt(post.getViewCnt() + 1);
-        // postRepository.save(post);
-        // System.out.println("@@@@@@@@@@@@@@@@@@@@@@"+opt);
+    public Post postDetail( @PathVariable("id") Long id) {
+        Optional<Post> opt = postRepository.findById(id);
+        Post post = opt.get();
+        // 조회수 증가
+        post.setViewCnt(post.getViewCnt() + 1);
+        postRepository.save(post);
         return opt.get();
     }
 
+    // public Post cardDetail(@PathVariable Long recipeId){
+    //     Post post = new Post();
+    //     response.add("data",cardService.showDetailedRecipe(recipeId));
+    //     return response;
+    // }
 
-
-    //게시글
+    //게시글 전체 불러오기
     @GetMapping("/posts")
     @ResponseBody
     public List<Post> postList(Long id) {

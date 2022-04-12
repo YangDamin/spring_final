@@ -1,27 +1,38 @@
 package com.example.demo.model;
-// package com.example.demo.calendar;
 
-// import javax.persistence.Entity;
-// import javax.persistence.GeneratedValue;
-// import javax.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
-// import lombok.AllArgsConstructor;
-// import lombok.Builder;
-// import lombok.Getter;
-// import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-// @Entity
-// @Getter
-// @Builder
-// @NoArgsConstructor
-// @AllArgsConstructor
-// public class Calendar {
-//     @Id
-//     @GeneratedValue
-//     private long id;
-//     private String title;
-//     private Date start;
-//     private Date end;
-//     private boolean allday;
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Calendar {
+    @Id
+    @GeneratedValue
+    private long id;
 
-// }
+    private String title;
+    private String start;
+    private String end;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public static Calendar createCalendar(User user, String title, String start, String end){
+        Calendar calendar = new Calendar();
+        calendar.setUser(user);
+        calendar.setTitle(title);
+        calendar.setStart(start);
+        calendar.setEnd(end);
+        return calendar;
+    }
+}

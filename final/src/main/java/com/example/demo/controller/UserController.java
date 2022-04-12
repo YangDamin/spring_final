@@ -32,7 +32,6 @@ import javax.servlet.http.HttpSession;
 
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.service.KakaoAPI;
 import com.example.demo.service.UserService;
 
 
