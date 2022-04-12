@@ -33,3 +33,8 @@ build/
 .vscode/
 
 
+### my ignore ###
+src/main/resources/application.properties
+
+
+.idea/**

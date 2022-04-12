@@ -4,6 +4,20 @@
             "type": "java",
             "name": "Launch FinalApplication",
             "request": "launch",
+            "mainClass": "com.example.demo.FinalApplication",
+            "projectName": ""
+        },
+        {
+            "type": "java",
+            "name": "Launch FinalApplication",
+            "request": "launch",
+            "mainClass": "com.FinalApplication",
+            "projectName": ""
+        },
+        {
+            "type": "java",
+            "name": "Launch FinalApplication",
+            "request": "launch",
             "mainClass": "FinalApplication",
             "projectName": "demo"
         },

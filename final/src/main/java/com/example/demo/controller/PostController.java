@@ -7,16 +7,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
+
 import com.example.demo.model.Post;
 import com.example.demo.repository.PostRepository;
+
 import com.example.demo.service.PostService;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -45,18 +50,24 @@ public class PostController {
         Optional<Post> opt = postRepository.findById(id);
         Post post = opt.get();
         // 조회수 증가
-        post.setViewCnt(post.getViewCnt() + 1);
-        postRepository.save(post);
+//         post.setViewCnt(post.getViewCnt() + 1);
+//         postRepository.save(post);
+//         return opt.get();
+//     }
+
+//     public Post cardDetail(@PathVariable Long recipeId){
+//         Post post = new Post();
+//         response.add("data",cardService.showDetailedRecipe(recipeId));
+//         return response;
+//     }
+
+//     // 게시글 전체 불러오기
+        // post.setViewCnt(post.getViewCnt() + 1);
+        // postRepository.save(post);
         return opt.get();
     }
 
-    public Post cardDetail(@PathVariable Long recipeId){
-        Post post = new Post();
-        response.add("data",cardService.showDetailedRecipe(recipeId));
-        return response;
-    }
-
-    // 게시글 전체 불러오기
+    //게시글 전체 불러오기//
     @GetMapping("/posts")
     @ResponseBody
     public List<Post> postList(Long id) {
@@ -66,6 +77,12 @@ public class PostController {
         return list;
 
     }
+
+    @GetMapping("/search/{search}")
+    public List<Post> searchBook(@PathVariable("search") String search){
+      List<Post> postBySearch = postRepository.findByTitleContaining(search);
+      return postBySearch;
+  }
 
 
 }

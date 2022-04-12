@@ -33,8 +33,9 @@ public class Post {
 
     private long like;
     private boolean open;
+    // private long viewCnt;
     private String videoPath;
-    private long userId;
+    private Long userId;
 
 //    @ManyToOne
 //    @JoinColumn(name = "user_id")
@@ -47,6 +48,7 @@ public class Post {
         post.setContent(content);
         post.setDate(date);
         post.setVideoPath(videoPath);
+        // post.setViewCnt(viewCnt);
         return post;
     }
 
