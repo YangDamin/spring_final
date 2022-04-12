@@ -33,7 +33,7 @@ public class Post {
 
     private long like;
     private boolean open;
-    private long viewCnt;
+    // private long viewCnt;
     private String videoPath;
     private Long userId;
 
@@ -41,14 +41,14 @@ public class Post {
 //    @JoinColumn(name = "user_id")
 //    private User user;
 
-    public static Post createPost(Long userId, String title, String content, String date, String videoPath , Long viewCnt){
+    public static Post createPost(Long userId, String title, String content, String date, String videoPath){
         Post post = new Post();
         post.setUserId(userId);
         post.setTitle(title);
         post.setContent(content);
         post.setDate(date);
         post.setVideoPath(videoPath);
-        post.setViewCnt(viewCnt);
+        // post.setViewCnt(viewCnt);
         return post;
     }
 

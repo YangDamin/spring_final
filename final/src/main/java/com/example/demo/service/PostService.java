@@ -23,10 +23,10 @@ public class PostService {
     UserRepository userRepository;
 
     //게시물 작성
-    public void writeContent(String userEmail, String title, String content, String date , String videoPath,Long viewCnt){
+    public void writeContent(String userEmail, String title, String content, String date , String videoPath){
         User findUser = userRepository.findByEmail(userEmail);
 
-        Post post = Post.createPost(findUser.getId(),title,content,date,videoPath,viewCnt);
+        Post post = Post.createPost(findUser.getId(),title,content,date,videoPath);
 
         postRepository.save(post);
     }

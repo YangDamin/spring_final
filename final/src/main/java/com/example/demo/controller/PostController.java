@@ -38,9 +38,9 @@ public class PostController {
     //글 작성
     @PostMapping("/write")
     @ResponseBody
-    public void writeContent(String userEmail, String title, String content, String date, String videoPath ,Long viewCnt) {
+    public void writeContent(String userEmail, String title, String content, String date, String videoPath) {
 
-        postservice.writeContent(userEmail, title, content, date, videoPath , viewCnt);
+        postservice.writeContent(userEmail, title, content, date, videoPath);
     }
 
     //상세정보
@@ -50,16 +50,10 @@ public class PostController {
         Optional<Post> opt = postRepository.findById(id);
         Post post = opt.get();
         // 조회수 증가
-        post.setViewCnt(post.getViewCnt() + 1);
-        postRepository.save(post);
+        // post.setViewCnt(post.getViewCnt() + 1);
+        // postRepository.save(post);
         return opt.get();
     }
-
-    // public Post cardDetail(@PathVariable Long recipeId){
-    //     Post post = new Post();
-    //     response.add("data",cardService.showDetailedRecipe(recipeId));
-    //     return response;
-    // }
 
     //게시글 전체 불러오기//
     @GetMapping("/posts")
@@ -71,6 +65,12 @@ public class PostController {
         return list;
 
     }
+
+    @GetMapping("/search/{search}")
+    public List<Post> searchBook(@PathVariable("search") String search){
+      List<Post> postBySearch = postRepository.findByTitleContaining(search);
+      return postBySearch;
+  }
 
 
 }
