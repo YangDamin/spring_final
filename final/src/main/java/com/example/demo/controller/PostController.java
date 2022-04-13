@@ -67,6 +67,12 @@ public class PostController {
 
     }
 
+    // 내가 쓴 게시물 조회
+    @PostMapping("/myfeed")
+    public List<Post> mypostList(Long id){
+        return postservice.mypostList(id);
+    }
+
     
     @GetMapping("/search/{word}")
     public List<Post> searchVideo(@PathVariable("word") String word){
