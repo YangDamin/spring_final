@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
@@ -25,9 +26,8 @@ import com.example.demo.service.PostService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Controller
+@RestController
 @CrossOrigin(origins = "http://localhost:3000")
-
 public class PostController {
     @Autowired
     PostService postservice;
@@ -37,28 +37,28 @@ public class PostController {
 
     //글 작성
     @PostMapping("/write")
-    @ResponseBody
-    public void writeContent(String userEmail, String title, String content, String date, String videoPath) {
+
+    public void writeContent(String userEmail, String title, String content, String date, String videoPath ) {
 
         postservice.writeContent(userEmail, title, content, date, videoPath);
     }
 
     //상세정보
     @GetMapping("/post/detail/{postid}")
-    @ResponseBody
+
     public Post postDetail( @PathVariable("postid") Long postid) {
         Optional<Post> opt = postRepository.findById(postid);
-        // Post post = opt.get();
-        // //조회수 증가
-        // post.setViewCnt(post.getViewCnt() + 1);
-        // postRepository.save(post);
+        Post post = opt.get();
+        //조회수 증가
+        post.setViewCnt(post.getViewCnt() + 1);
+        postRepository.save(post);
         return opt.get();
 
     }
 
     //게시글 전체 불러오기//
     @GetMapping("/posts")
-    @ResponseBody
+
     public List<Post> postList(Long id) {
         Sort sort = Sort.by(Order.desc("id"));
         List<Post> list = postRepository.findAll(sort);
@@ -69,10 +69,11 @@ public class PostController {
 
     
     @GetMapping("/search/{word}")
-    public List<Post> searchPost(@PathVariable("word") String search){
-      List<Post> postBySearch = postRepository.findByTitleContaining(search);
+    public List<Post> searchVideo(@PathVariable("word") String word){
+      List<Post> postBySearch = postRepository.findByTitleContaining(word);
+
       return postBySearch;
-  }
+    }
 
 
 }
