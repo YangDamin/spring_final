@@ -30,7 +30,6 @@ public class Post {
     private String content;
 
     private String date;
-    private long viewCnt;
     private long like;
     private boolean open;
     private String videoPath;
