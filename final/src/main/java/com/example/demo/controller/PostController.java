@@ -28,7 +28,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-
 public class PostController {
     @Autowired
     PostService postservice;
@@ -39,7 +38,7 @@ public class PostController {
     //글 작성
     @PostMapping("/write")
 
-    public void writeContent(String userEmail, String title, String content, String date, String videoPath) {
+    public void writeContent(String userEmail, String title, String content, String date, String videoPath ) {
 
         postservice.writeContent(userEmail, title, content, date, videoPath);
     }
@@ -49,10 +48,10 @@ public class PostController {
 
     public Post postDetail( @PathVariable("postid") Long postid) {
         Optional<Post> opt = postRepository.findById(postid);
-        // Post post = opt.get();
-        // //조회수 증가
-        // post.setViewCnt(post.getViewCnt() + 1);
-        // postRepository.save(post);
+        Post post = opt.get();
+        //조회수 증가
+        post.setViewCnt(post.getViewCnt() + 1);
+        postRepository.save(post);
         return opt.get();
 
     }
@@ -70,10 +69,11 @@ public class PostController {
 
     
     @GetMapping("/search/{word}")
-    public List<Post> searchPost(@PathVariable("word") String word){
+    public List<Post> searchVideo(@PathVariable("word") String word){
       List<Post> postBySearch = postRepository.findByTitleContaining(word);
+
       return postBySearch;
-  }
+    }
 
 
 }
