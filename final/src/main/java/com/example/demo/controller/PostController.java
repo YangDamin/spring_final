@@ -68,8 +68,8 @@ public class PostController {
     }
 
     
-    @GetMapping("/search/{search}")
-    public List<Post> searchBook(@PathVariable("search") String search){
+    @GetMapping("/search/{word}")
+    public List<Post> searchPost(@PathVariable("word") String search){
       List<Post> postBySearch = postRepository.findByTitleContaining(search);
       return postBySearch;
   }
