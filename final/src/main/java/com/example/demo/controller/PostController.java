@@ -49,8 +49,6 @@ public class PostController {
     public Post postDetail( @PathVariable("postid") Long postid) {
         Optional<Post> opt = postRepository.findById(postid);
         Post post = opt.get();
-        //조회수 증가
-        post.setViewCnt(post.getViewCnt() + 1);
         postRepository.save(post);
         return opt.get();
 
