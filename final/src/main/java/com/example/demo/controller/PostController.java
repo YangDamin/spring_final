@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
@@ -25,9 +26,8 @@ import com.example.demo.service.PostService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Controller
+@RestController
 @CrossOrigin(origins = "http://localhost:3000")
-
 public class PostController {
     @Autowired
     PostService postservice;
@@ -68,11 +68,12 @@ public class PostController {
     }
 
     
-    @GetMapping("/search/{search}")
-    public List<Post> searchBook(@PathVariable("search") String search){
-      List<Post> postBySearch = postRepository.findByTitleContaining(search);
+    @GetMapping("/search/{word}")
+    public List<Post> searchVideo(@PathVariable("word") String word){
+      List<Post> postBySearch = postRepository.findByTitleContaining(word);
+      System.out.println("@@@@@@@@@@@@@@@@@");
       return postBySearch;
-  }
+    }
 
 
 }
