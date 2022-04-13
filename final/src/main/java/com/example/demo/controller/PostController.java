@@ -37,26 +37,25 @@ public class PostController {
 
     //글 작성
     @PostMapping("/write")
-
     public void writeContent(String userEmail, String title, String content, String date, String videoPath ) {
 
         postservice.writeContent(userEmail, title, content, date, videoPath);
     }
 
-    //상세정보
+    //글 상세정보
     @GetMapping("/post/detail/{postid}")
-
     public Post postDetail( @PathVariable("postid") Long postid) {
         Optional<Post> opt = postRepository.findById(postid);
-        Post post = opt.get();
+        
         //조회수 증가
+        Post post = opt.get();
         post.setViewCnt(post.getViewCnt() + 1);
         postRepository.save(post);
         return opt.get();
 
     }
 
-    //게시글 전체 불러오기//
+    //게시글 전체 불러오기
     @GetMapping("/posts")
 
     public List<Post> postList(Long id) {
@@ -67,7 +66,7 @@ public class PostController {
 
     }
 
-    
+    //제목 검색 기능
     @GetMapping("/search/{word}")
     public List<Post> searchVideo(@PathVariable("word") String word){
       List<Post> postBySearch = postRepository.findByTitleContaining(word);

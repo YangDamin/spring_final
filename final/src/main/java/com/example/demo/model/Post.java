@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,6 +32,8 @@ public class Post {
     private String content;
 
     private String date;
+    
+    @ColumnDefault(value = "0")
     private long viewCnt;
     private long like;
     private boolean open;
