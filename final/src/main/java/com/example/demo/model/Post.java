@@ -33,7 +33,6 @@ public class Post {
 
     private long like;
     private boolean open;
-    // private long viewCnt;
     private String videoPath;
     private Long userId;
 
@@ -48,7 +47,6 @@ public class Post {
         post.setContent(content);
         post.setDate(date);
         post.setVideoPath(videoPath);
-        // post.setViewCnt(viewCnt);
         return post;
     }
 
