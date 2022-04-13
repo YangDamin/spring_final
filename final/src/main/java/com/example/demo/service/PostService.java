@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -29,5 +30,10 @@ public class PostService {
         Post post = Post.createPost(findUser.getId(),title,content,date,videoPath);
 
         postRepository.save(post);
+    }
+
+    // 내가 쓴 게시물 조회
+    public List<Post> mypostList(Long id){
+        return postRepository.findByUserId(id);
     }
 }

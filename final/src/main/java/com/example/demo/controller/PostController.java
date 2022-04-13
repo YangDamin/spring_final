@@ -57,7 +57,6 @@ public class PostController {
 
     //게시글 전체 불러오기
     @GetMapping("/posts")
-
     public List<Post> postList(Long id) {
         Sort sort = Sort.by(Order.desc("id"));
         List<Post> list = postRepository.findAll(sort);
@@ -66,7 +65,14 @@ public class PostController {
 
     }
 
-    //제목 검색 기능
+    // 내가 쓴 게시물 조회
+    @PostMapping("/myfeed")
+    public List<Post> mypostList(Long id){
+        return postservice.mypostList(id);
+    }
+
+    
+    //제목 검색
     @GetMapping("/search/{word}")
     public List<Post> searchVideo(@PathVariable("word") String word){
       List<Post> postBySearch = postRepository.findByTitleContaining(word);
