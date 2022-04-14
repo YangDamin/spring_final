@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,68 +18,95 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
 
 import com.example.demo.model.Post;
+import com.example.demo.model.User;
 import com.example.demo.repository.PostRepository;
 
 import com.example.demo.service.PostService;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class PostController {
-    @Autowired
-    PostService postservice;
+  @Autowired
+  PostService postservice;
 
-    @Autowired
-    PostRepository postRepository;
+  @Autowired
+  PostRepository postRepository;
 
-    //글 작성
-    @PostMapping("/write")
-    public void writeContent(String userEmail, String title, String content, String date, String videoPath ) {
+  @Autowired
+  HttpSession session;
 
-        postservice.writeContent(userEmail, title, content, date, videoPath);
-    }
+  // 글 작성
+  @PostMapping("/write")
+  public void writeContent(String userEmail, String title, String content, String date, String videoPath) {
 
-    //글 상세정보
-    @GetMapping("/post/detail/{postid}")
-    public Post postDetail( @PathVariable("postid") Long postid) {
-        Optional<Post> opt = postRepository.findById(postid);
-        
-        //조회수 증가
-        Post post = opt.get();
-        post.setViewCnt(post.getViewCnt() + 1);
-        postRepository.save(post);
-        return opt.get();
+    postservice.writeContent(userEmail, title, content, date, videoPath);
+  }
 
-    }
+  // 글 상세정보
+  @GetMapping("/post/detail/{postid}")
+  public Post postDetail(@PathVariable("postid") Long postid) {
+    Optional<Post> opt = postRepository.findById(postid);
+    // 조회수 증가
+    Post post = opt.get();
+    post.setViewCnt(post.getViewCnt() + 1);
+    postRepository.save(post);
+    return opt.get();
 
-    //게시글 전체 불러오기
-    @GetMapping("/posts")
-    public List<Post> postList(Long id) {
-        Sort sort = Sort.by(Order.desc("id"));
-        List<Post> list = postRepository.findAll(sort);
-        
-        return list;
+  }
 
-    }
+  // 게시글 전체 불러오기
+  @GetMapping("/posts")
+  public List<Post> postList(Long id) {
+    Sort sort = Sort.by(Order.desc("id"));
+    List<Post> list = postRepository.findAll(sort);
 
-    // 내가 쓴 게시물 조회
-    @PostMapping("/myfeed")
-    public List<Post> mypostList(Long id){
-        return postservice.mypostList(id);
-    }
+    return list;
 
-    
-    //제목 검색
-    @GetMapping("/search/{word}")
-    public List<Post> searchVideo(@PathVariable("word") String word){
-      List<Post> postBySearch = postRepository.findByTitleContaining(word);
+  }
 
-      return postBySearch;
-    }
+  // 내가 쓴 게시물 조회
+  @PostMapping("/myfeed")
+  public List<Post> mypostList(Long id) {
+    return postservice.mypostList(id);
+  }
 
+  // 제목 검색
+  @GetMapping("/search/{word}")
+  public List<Post> searchVideo(@PathVariable("word") String word) {
+    List<Post> postBySearch = postRepository.findByTitleContaining(word);
 
+    return postBySearch;
+  }
+
+  // 인기글
+  @GetMapping("/best")
+  public Post bestView(@ModelAttribute Post post) {
+    Post bestPost = postRepository.findTopByOrderByViewCntDesc();
+
+    return bestPost;
+  }
+
+  @PostMapping("/post/update/{postid}")
+  public Post postUpdate( @ModelAttribute Post post,
+                          @PathVariable("postid") long postid) {
+    User user = (User) session.getAttribute("user_info");
+    post.setId(postid);
+    postRepository.save(post);
+    return post;
+  }
+
+   //삭제
+
+   @GetMapping("/table/delete/{postid}")
+   public String tableDelete(@PathVariable("postid") long postid) {
+
+       postRepository.deleteById(postid);
+       //return "redirect:/";
+       return "/";
+   }
 }
