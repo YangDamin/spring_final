@@ -13,6 +13,8 @@ import com.example.demo.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 
 @Service
 @Transactional
@@ -34,6 +36,8 @@ public class PostService {
 
     // 내가 쓴 게시물 조회
     public List<Post> mypostList(Long id){
+
         return postRepository.findByUserId(id);
+
     }
 }

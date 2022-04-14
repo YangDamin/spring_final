@@ -48,9 +48,9 @@ public class PostController {
   }
 
   // 글 상세정보
-  @GetMapping("/post/detail/{postid}")
-  public Post postDetail(@PathVariable("postid") Long postid) {
-    Optional<Post> opt = postRepository.findById(postid);
+  @GetMapping("/post/detail/{id}")
+  public Post postDetail(@PathVariable("id") Long id) {
+    Optional<Post> opt = postRepository.findById(id);
     // 조회수 증가
     Post post = opt.get();
     post.setViewCnt(post.getViewCnt() + 1);
@@ -72,6 +72,7 @@ public class PostController {
   // 내가 쓴 게시물 조회
   @PostMapping("/myfeed")
   public List<Post> mypostList(Long id) {
+
     return postservice.mypostList(id);
   }
 
@@ -91,22 +92,23 @@ public class PostController {
     return bestPost;
   }
 
-  @PostMapping("/post/update/{postid}")
+  //수정
+  @PostMapping("/post/update/{id}")
   public Post postUpdate( @ModelAttribute Post post,
-                          @PathVariable("postid") long postid) {
+                          @PathVariable("id") long id) {
     User user = (User) session.getAttribute("user_info");
-    post.setId(postid);
+    post.setId(id);
     postRepository.save(post);
     return post;
+
   }
 
    //삭제
-
-   @GetMapping("/table/delete/{postid}")
-   public String tableDelete(@PathVariable("postid") long postid) {
-
-       postRepository.deleteById(postid);
-       //return "redirect:/";
+   @GetMapping("/post/delete/{id}")
+   public String postDelete(@PathVariable("id") long id) {
+      System.out.print("@@@@@@@@@@@@@@@" + id);
+       postRepository.deleteById(id);
+      //  return "redirect:/";
        return "/";
    }
 }

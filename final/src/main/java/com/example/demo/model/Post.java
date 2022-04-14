@@ -39,6 +39,7 @@ public class Post {
     private boolean open;
     private String videoPath;
     private Long userId;
+    // private String userName;
 
 //    @ManyToOne
 //    @JoinColumn(name = "user_id")
