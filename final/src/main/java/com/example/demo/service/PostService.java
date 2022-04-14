@@ -34,6 +34,11 @@ public class PostService {
         postRepository.save(post);
     }
 
+    // 게시물 작성 사용자 이름 뽑아내기
+    public String writeUser(Long userId){
+        return userRepository.findById(userId).get().getName();
+    }
+
     // 내가 쓴 게시물 조회
     public List<Post> mypostList(Long id){
 
