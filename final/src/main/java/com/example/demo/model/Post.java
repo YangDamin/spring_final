@@ -35,7 +35,7 @@ public class Post {
     
     @ColumnDefault(value = "0")
     private long viewCnt;
-    private long like;
+    // private long like;
     private boolean open;
     private String videoPath;
     private Long userId;

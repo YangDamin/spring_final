@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -93,9 +94,19 @@ public class PostController {
   }
 
   //수정
+  // @PostMapping("/post/update/{id}")
+  // public Post postUpdate( @ModelAttribute Post post,
+  //                         @PathVariable("id") long id) {
+  //   User user = (User) session.getAttribute("user_info");
+  //   post.setId(id);
+  //   postRepository.save(post);
+  //   return post;
+
+  // }
+
+
   @PostMapping("/post/update/{id}")
-  public Post postUpdate( @ModelAttribute Post post,
-                          @PathVariable("id") long id) {
+  public Post postUpdate(Post post,@PathVariable("id") long id) {
     User user = (User) session.getAttribute("user_info");
     post.setId(id);
     postRepository.save(post);
@@ -103,12 +114,11 @@ public class PostController {
 
   }
 
+
    //삭제
-   @GetMapping("/post/delete/{id}")
-   public String postDelete(@PathVariable("id") long id) {
-      System.out.print("@@@@@@@@@@@@@@@" + id);
+   @DeleteMapping("/post/delete/{id}")
+   public void postDelete(@PathVariable("id") long id) {
+
        postRepository.deleteById(id);
-      //  return "redirect:/";
-       return "/";
    }
 }
