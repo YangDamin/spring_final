@@ -36,7 +36,7 @@ public class PostController {
     @Autowired
     PostRepository postRepository;
 
-    //글 작성
+    //게시물 작성
     @PostMapping("/write")
 
     public void writeContent(String userEmail, String title, String content, String date, String videoPath ) {
@@ -53,7 +53,7 @@ public class PostController {
         postRepository.save(post);
 
         //게시물 작성 사용자 이름 뽑아내기        
-        String name = postservice.writeUser(opt.get().getUserId());
+        String name = postservice.writeUser(opt.get().getUser());
 
         Map<String, Object> result = new HashMap<>();
         result.put("post", opt.get());
@@ -68,22 +68,16 @@ public class PostController {
     public List<Post> postList(Long id) {
         Sort sort = Sort.by(Order.desc("id"));
         List<Post> list = postRepository.findAll(sort);
+
         return list;
 
     }
 
     // 내가 쓴 게시물 조회
-    @PostMapping("/myfeed")
-    public List<Post> mypostList(Long id){
-        return postservice.mypostList(id);
-    }
-
     // 나의 인기 게시물 상위 n개 추출
-    @GetMapping("/myfeed")
-    public List<Post> myPopular(Long viewCnt){
-        Sort sort = Sort.by(Order.desc("viewCnt"));
-        List<Post> list = postRepository.findAll(sort);
-        return list;
+    @PostMapping("/myfeed")
+    public Map<String, Object> mypostList(Long id, String email){
+        return postservice.mypostList(id, email);
     }
 
     

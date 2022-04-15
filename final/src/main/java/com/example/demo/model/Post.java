@@ -37,16 +37,14 @@ public class Post {
     private long viewCnt;
     private boolean open;
     private String videoPath;
-    private Long userId;
-    // private String userName;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User user;
+   @ManyToOne
+   @JoinColumn(name = "user_id")
+   private User user;
 
-    public static Post createPost(Long userId, String title, String content, String date, String videoPath){
+    public static Post createPost(User user, String title, String content, String date, String videoPath){
         Post post = new Post();
-        post.setUserId(userId);
+        post.setUser(user);
         post.setTitle(title);
         post.setContent(content);
         post.setDate(date);
