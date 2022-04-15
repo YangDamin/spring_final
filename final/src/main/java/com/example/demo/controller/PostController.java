@@ -65,7 +65,6 @@ public class PostController {
 
     //게시글 전체 불러오기//
     @GetMapping("/posts")
-
     public List<Post> postList(Long id) {
         Sort sort = Sort.by(Order.desc("id"));
         List<Post> list = postRepository.findAll(sort);
@@ -77,6 +76,14 @@ public class PostController {
     @PostMapping("/myfeed")
     public List<Post> mypostList(Long id){
         return postservice.mypostList(id);
+    }
+
+    // 나의 인기 게시물 상위 n개 추출
+    @GetMapping("/myfeed")
+    public List<Post> myPopular(Long viewCnt){
+        Sort sort = Sort.by(Order.desc("viewCnt"));
+        List<Post> list = postRepository.findAll(sort);
+        return list;
     }
 
     
