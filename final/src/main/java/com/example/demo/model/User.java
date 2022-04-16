@@ -27,11 +27,6 @@ public class User {
     private String pwd;
     private String name;
     private String phone;
-    
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "user")
-//    @JoinColumn(name = "USER_ID")
-//    List<Post> postList = new ArrayList<>();
 }
 
 

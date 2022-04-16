@@ -39,9 +39,9 @@ public class PostController {
     //게시물 작성
     @PostMapping("/write")
 
-    public void writeContent(String userEmail, String title, String content, String date, String videoPath ) {
+    public void writeContent(String userEmail, String title, String content, String date, String videoPath, String videothumbnail) {
 
-        postservice.writeContent(userEmail, title, content, date, videoPath);
+        postservice.writeContent(userEmail, title, content, date, videoPath, videothumbnail);
     }
 
     //상세정보

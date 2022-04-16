@@ -158,11 +158,11 @@ public class UserController {
     }
 
     // 탈퇴
-    // @DeleteMapping("/mypage")
-    // public void deleteUser(Long id) {
-    //     System.out.println(id);
-    //     userRepository.deleteById(id);
-    // }
+    @DeleteMapping("/mypage")
+    public void deleteUser(Long id) {
+        System.out.println(id);
+        userRepository.deleteById(id);
+    }
 
     // 이메일 찾기
     @PostMapping("/users/findEmail")
