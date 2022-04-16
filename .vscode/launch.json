@@ -1,12 +1,6 @@
 {
     "configurations": [
-        {
-            "type": "java",
-            "name": "Launch FinalApplication",
-            "request": "launch",
-            "mainClass": "com.example.demo.FinalApplication",
-            "projectName": ""
-        },
+
         {
             "type": "java",
             "name": "Launch FinalApplication",

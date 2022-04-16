@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,9 +20,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
+import javax.servlet.http.HttpSession;
 
 import com.example.demo.model.Post;
+import com.example.demo.model.User;
 import com.example.demo.repository.PostRepository;
 import com.example.demo.service.PostService;
 
@@ -36,6 +38,9 @@ public class PostController {
 
     @Autowired
     PostRepository postRepository;
+
+    @Autowired
+    HttpSession session;
 
     //게시물 작성
     @PostMapping("/write")
@@ -104,7 +109,7 @@ public class PostController {
 
 
   @PostMapping("/post/update/{id}")
-  public Post postUpdate(Post post,@PathVariable("id") long id) {
+  public Post postUpdate(@ModelAttribute Post post,@PathVariable("id") long id) {
     User user = (User) session.getAttribute("user_info");
     post.setId(id);
     postRepository.save(post);
