@@ -69,7 +69,7 @@ public class PostController {
 
     }
 
-    //게시글 전체 불러오기//
+    //게시글 전체 불러오기
     @GetMapping("/posts")
     public List<Post> postList(Long id) {
         Sort sort = Sort.by(Order.desc("id"));
@@ -79,14 +79,14 @@ public class PostController {
 
     }
 
-    // 내가 쓴 게시물 조회
-    // 나의 인기 게시물 상위 n개 추출
+    //  내가 쓴 게시물 조회
+    //  나의 인기 게시물 상위 n개 추출
     @PostMapping("/myfeed")
     public Map<String, Object> mypostList(Long id, String email){
         return postservice.mypostList(id, email);
     }
 
-    
+    //검색 기능
     @GetMapping("/search/{word}")
     public List<Post> searchVideo(@PathVariable("word") String word){
       List<Post> postBySearch = postRepository.findByTitleContaining(word);
@@ -116,6 +116,33 @@ public class PostController {
     return post;
 
   }
+
+
+  public Map<String, Object> modifyPw(@ModelAttribute User user) {
+    Map<String, Object> result = new HashMap<>();
+    User modifyUser = userRepository.findByEmail(user.getEmail());
+    boolean pwdMatch = passwordEncoder.matches(user.getPwd(), modifyUser.getPwd());
+
+
+    if (modifyUser != null && pwdMatch == false) {   // 기존 비번과 새로운 비번이 일치하지않으면 비번변경
+        modifyUser.setPwd(passwordEncoder.encode(user.getPwd()));
+        userRepository.save(modifyUser);
+        result.put("compare", pwdMatch);
+        result.put("pwd", modifyUser.getPwd());
+    }else {
+        result.put("compare", pwdMatch);
+    }
+    System.out.println("비밀번호 : " + user.getPwd());
+    System.out.println("이메일 : " + user.getEmail());
+    System.out.println(modifyUser);
+
+    return result;
+}
+
+    @PutMapping("/post/update/{id}")
+    public 
+
+
 
 
    //삭제
