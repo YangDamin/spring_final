@@ -110,36 +110,16 @@ public class PostController {
     public Post postUpdate(
             @ModelAttribute Post post, @PathVariable("id") long id) {
         
-        // Optional<Post> data = postRepository.findById(id);
-        // Post postData = data.get();
-        System.out.println(post);
-        User principal = (User) session.getAttribute("principal");
-        
-        if (principal != null && id == principal.getId()){
-        
-        User userEntity = userRepository.findById(id).get();
-        post.setTitle(post.getTitle());
-        post.setContent(post.getContent());
-        post.setDate(post.getDate());
-        post.setVideoPath(post.getVideoPath());
-        post.setVideothumbnail(post.getVideothumbnail());
+        Post modifyPost = postRepository.findById(id).get();
+        modifyPost.setTitle(post.getTitle());
+        modifyPost.setContent(post.getContent());
+        modifyPost.setDate(post.getDate());
+        modifyPost.setVideoPath(post.getVideoPath());
+        modifyPost.setVideothumbnail(post.getVideothumbnail());
 
-        postRepository.save(post);
-        session.setAttribute("user", userEntity);
-
-    }
-        // board.setContent(content);
+        postRepository.save(modifyPost);
         
-        
-        return post;
+        return modifyPost;
     }
 
-
-   //글 삭제
-   @DeleteMapping("/post/delete/{id}")
-   public void postDelete(@PathVariable("id") long id) {
-
-           postRepository.deleteById(id);
-
-    }
 }
