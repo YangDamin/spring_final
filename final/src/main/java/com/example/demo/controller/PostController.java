@@ -1,21 +1,18 @@
 package com.example.demo.controller;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
-import java.io.IOException;
-import java.sql.Date;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +22,7 @@ import javax.servlet.http.HttpSession;
 import com.example.demo.model.Post;
 import com.example.demo.model.User;
 import com.example.demo.repository.PostRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.PostService;
 
 
@@ -40,6 +38,9 @@ public class PostController {
     PostRepository postRepository;
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     HttpSession session;
 
     //게시물 작성
@@ -52,7 +53,10 @@ public class PostController {
 
     //상세정보
     @GetMapping("/post/detail/{postid}")
-    public Map<String, Object> postDetail( @PathVariable("postid") Long postid) {
+    public Map<String, Object> postDetail( @PathVariable("postid") Long postid ,Model model) {
+        Post postEntity = postRepository.findById(postid).get();
+        model.addAttribute("postEntity", postEntity);
+        
         Optional<Post> opt = postRepository.findById(postid);
         Post post = opt.get();
         post.setViewCnt(post.getViewCnt() + 1);
@@ -63,6 +67,7 @@ public class PostController {
 
         Map<String, Object> result = new HashMap<>();
         result.put("post", opt.get());
+        System.out.println("post 보기:" + opt.get());
         result.put("name", name);
         
         return result;
@@ -95,61 +100,41 @@ public class PostController {
     }
 
 
-
-  //수정
-  // @PostMapping("/post/update/{id}")
-  // public Post postUpdate( @ModelAttribute Post post,
-  //                         @PathVariable("id") long id) {
-  //   User user = (User) session.getAttribute("user_info");
-  //   post.setId(id);
-  //   postRepository.save(post);
-  //   return post;
-
-  // }
-
-
-  @PostMapping("/post/update/{id}")
-  public Post postUpdate(@ModelAttribute Post post,@PathVariable("id") long id) {
-    User user = (User) session.getAttribute("user_info");
-    post.setId(id);
-    postRepository.save(post);
-    return post;
-
-  }
-
-
-  public Map<String, Object> modifyPw(@ModelAttribute User user) {
-    Map<String, Object> result = new HashMap<>();
-    User modifyUser = userRepository.findByEmail(user.getEmail());
-    boolean pwdMatch = passwordEncoder.matches(user.getPwd(), modifyUser.getPwd());
-
-
-    if (modifyUser != null && pwdMatch == false) {   // 기존 비번과 새로운 비번이 일치하지않으면 비번변경
-        modifyUser.setPwd(passwordEncoder.encode(user.getPwd()));
-        userRepository.save(modifyUser);
-        result.put("compare", pwdMatch);
-        result.put("pwd", modifyUser.getPwd());
-    }else {
-        result.put("compare", pwdMatch);
-    }
-    System.out.println("비밀번호 : " + user.getPwd());
-    System.out.println("이메일 : " + user.getEmail());
-    System.out.println(modifyUser);
-
-    return result;
-}
-
+    //글 수정
     @PutMapping("/post/update/{id}")
-    public 
+    public Post postUpdate(
+            @ModelAttribute Post post, @PathVariable("id") long id) {
+        
+        // Optional<Post> data = postRepository.findById(id);
+        // Post postData = data.get();
+        System.out.println(post);
+        User principal = (User) session.getAttribute("principal");
+        
+        if (principal != null && id == principal.getId()){
+        
+        User userEntity = userRepository.findById(id).get();
+        post.setTitle(post.getTitle());
+        post.setContent(post.getContent());
+        post.setDate(post.getDate());
+        post.setVideoPath(post.getVideoPath());
+        post.setVideothumbnail(post.getVideothumbnail());
+
+        postRepository.save(post);
+        session.setAttribute("user", userEntity);
+
+    }
+        // board.setContent(content);
+        
+        
+        return post;
+    }
 
 
-
-
-   //삭제
+   //글 삭제
    @DeleteMapping("/post/delete/{id}")
    public void postDelete(@PathVariable("id") long id) {
 
-       postRepository.deleteById(id);
-   }
+           postRepository.deleteById(id);
 
+    }
 }
