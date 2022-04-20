@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -79,7 +80,6 @@ public class PostController {
     public List<Post> postList(Long id) {
         Sort sort = Sort.by(Order.desc("id"));
         List<Post> list = postRepository.findAll(sort);
-
         return list;
 
     }
@@ -99,6 +99,11 @@ public class PostController {
       return postBySearch;
     }
 
+    // 게시물 삭제
+    @DeleteMapping(value = "/post/delete/{id}")
+    public void deletePost(@PathVariable("id") long id){
+        postservice.deletePost(id);
+    }
 
     //글 수정
     @PutMapping("/post/update/{id}")

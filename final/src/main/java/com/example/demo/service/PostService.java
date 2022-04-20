@@ -62,4 +62,9 @@ public class PostService {
         return result;
 
     }
+
+    // 게시물 삭제
+    public void deletePost(Long id){
+        postRepository.deleteById(id);
+    }
 }

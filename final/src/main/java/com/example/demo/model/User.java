@@ -28,11 +28,11 @@ public class User {
     private String name;
     private String phone;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Calendar> calendar;
+    // @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE, orphanRemoval = true)
+    // private List<Calendar> calendar;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Post> post;
+    // @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE, orphanRemoval = true)
+    // private List<Post> post;
 
 }
 

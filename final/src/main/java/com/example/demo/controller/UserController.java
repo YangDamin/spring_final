@@ -159,13 +159,13 @@ public class UserController {
     }
 
     // 탈퇴
-    @DeleteMapping(value = "/mypage/{userId}")
-    @ResponseBody
-    public void deleteUser(@PathVariable("userId") long userId) {
-        System.out.println(userId);
-        Optional<User> user = userRepository.findById(userId);
-        userRepository.delete(user.get());
-    }
+    // @DeleteMapping(value = "/mypage/{userId}")
+    // @ResponseBody
+    // public void deleteUser(@PathVariable("userId") long userId) {
+    //     System.out.println(userId);
+    //     Optional<User> user = userRepository.findById(userId);
+    //     userRepository.delete(user.get());
+    // }
 
     // 이메일 찾기
     @PostMapping("/users/findEmail")
