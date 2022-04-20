@@ -3,6 +3,7 @@ package com.example.demo.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -39,7 +40,7 @@ public class Post {
     private String videoPath;
     private String videothumbnail;
 
-   @ManyToOne
+   @ManyToOne(fetch=FetchType.EAGER)
    @JoinColumn(name = "user_id")
    private User user;
 

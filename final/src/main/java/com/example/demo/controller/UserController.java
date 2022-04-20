@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -158,10 +159,12 @@ public class UserController {
     }
 
     // 탈퇴
-    @DeleteMapping("/mypage")
-    public void deleteUser(Long id) {
-        System.out.println(id);
-        userRepository.deleteById(id);
+    @DeleteMapping(value = "/mypage/{userId}")
+    @ResponseBody
+    public void deleteUser(@PathVariable("userId") long userId) {
+        System.out.println(userId);
+        Optional<User> user = userRepository.findById(userId);
+        userRepository.delete(user.get());
     }
 
     // 이메일 찾기

@@ -27,6 +27,13 @@ public class User {
     private String pwd;
     private String name;
     private String phone;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Calendar> calendar;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Post> post;
+
 }
 
 
