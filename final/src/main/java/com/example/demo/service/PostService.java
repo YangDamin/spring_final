@@ -1,8 +1,5 @@
 package com.example.demo.service;
 
-
-import java.sql.Date;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,10 +27,10 @@ public class PostService {
     UserRepository userRepository;
 
     //게시물 작성
-    public void writeContent(String userEmail, String title, String content, String date , String videoPath, String videothumbnail){
-        User findUser = userRepository.findByEmail(userEmail);
+    public void writeContent(Long id, String title, String content, String date , String videoPath, String videothumbnail){
+        Optional<User> findUser = userRepository.findById(id);
 
-        Post post = Post.createPost(findUser,title,content,date,videoPath, videothumbnail);
+        Post post = Post.createPost(findUser.get(), title,content,date,videoPath, videothumbnail);
 
         postRepository.save(post);
     }
@@ -45,12 +42,12 @@ public class PostService {
 
     // 내가 쓴 게시물 조회
     // 나의 인기 게시물 상위 n개 추출
-    public Map<String, Object> mypostList(Long id, String email){
+    public Map<String, Object> mypostList(Long id){
 
         Map<String, Object> result = new HashMap<>();
         // 내 게시물
-        User user = userRepository.findByEmail(email);
-        List<Post> myfeedlist = postRepository.findByUser(user);
+        Optional<User> user = userRepository.findById(id);
+        List<Post> myfeedlist = postRepository.findByUser(user.get());
         result.put("myfeed", myfeedlist);
 
         // 내 인기 게시물

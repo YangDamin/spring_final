@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -22,17 +23,17 @@ public class CalendarService {
     UserRepository userRepository;
 
     // 달력 일정 추가
-    public void addSchedule(String email, String title, String start, String end){
-        User findUser = userRepository.findByEmail(email);
-        Calendar calendar = Calendar.createCalendar(findUser, title, start, end);
+    public void addSchedule(Long id, String title, String start, String end){
+        Optional<User> user = userRepository.findById(id);
+        Calendar calendar = Calendar.createCalendar(user.get(), title, start, end);
 
         calendarRepository.save(calendar);
     }
 
     // 일정 달력에 보여주기
-    public List<Calendar> showSchedule(String email){
-        User findUser = userRepository.findByEmail(email);
-        List<Calendar> scheduleList = calendarRepository.findByUser(findUser);
+    public List<Calendar> showSchedule(Long id){
+        Optional<User> findUser = userRepository.findById(id);
+        List<Calendar> scheduleList = calendarRepository.findByUser(findUser.get());
         return scheduleList;
     }
 
