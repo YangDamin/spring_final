@@ -30,7 +30,7 @@ import com.example.demo.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class PostController {
     @Autowired
     PostService postservice;

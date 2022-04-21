@@ -58,7 +58,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 
 @Controller
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class UserController {
 
     @Autowired
