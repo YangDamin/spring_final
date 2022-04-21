@@ -47,9 +47,9 @@ public class PostController {
     //게시물 작성
     @PostMapping("/write")
 
-    public void writeContent(Long id, String title, String content, String date, String videoPath, String videothumbnail) {
+    public void writeContent(String userEmail, String title, String content, String date, String videoPath, String videothumbnail) {
 
-        postservice.writeContent(id, title, content, date, videoPath, videothumbnail);
+        postservice.writeContent(userEmail, title, content, date, videoPath, videothumbnail);
     }
 
     //상세정보
@@ -86,8 +86,8 @@ public class PostController {
     //  내가 쓴 게시물 조회
     //  나의 인기 게시물 상위 n개 추출
     @PostMapping("/myfeed")
-    public Map<String, Object> mypostList(Long id){
-        return postservice.mypostList(id);
+    public Map<String, Object> mypostList(Long id, String email){
+        return postservice.mypostList(id, email);
     }
 
     //검색 기능

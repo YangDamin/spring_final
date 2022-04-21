@@ -23,17 +23,17 @@ public class CalendarService {
     UserRepository userRepository;
 
     // 달력 일정 추가
-    public void addSchedule(Long id, String title, String start, String end){
-        Optional<User> user = userRepository.findById(id);
-        Calendar calendar = Calendar.createCalendar(user.get(), title, start, end);
+    public void addSchedule(String email, String title, String start, String end){
+        User user = userRepository.findByEmail(email);
+        Calendar calendar = Calendar.createCalendar(user, title, start, end);
 
         calendarRepository.save(calendar);
     }
 
     // 일정 달력에 보여주기
-    public List<Calendar> showSchedule(Long id){
-        Optional<User> findUser = userRepository.findById(id);
-        List<Calendar> scheduleList = calendarRepository.findByUser(findUser.get());
+    public List<Calendar> showSchedule(String email){
+        User findUser = userRepository.findByEmail(email);
+        List<Calendar> scheduleList = calendarRepository.findByUser(findUser);
         return scheduleList;
     }
 

@@ -27,10 +27,10 @@ public class PostService {
     UserRepository userRepository;
 
     //게시물 작성
-    public void writeContent(Long id, String title, String content, String date , String videoPath, String videothumbnail){
-        Optional<User> findUser = userRepository.findById(id);
+    public void writeContent(String userEmail, String title, String content, String date , String videoPath, String videothumbnail){
+        User findUser = userRepository.findByEmail(userEmail);
 
-        Post post = Post.createPost(findUser.get(), title,content,date,videoPath, videothumbnail);
+        Post post = Post.createPost(findUser, title,content,date,videoPath, videothumbnail);
 
         postRepository.save(post);
     }
@@ -42,12 +42,12 @@ public class PostService {
 
     // 내가 쓴 게시물 조회
     // 나의 인기 게시물 상위 n개 추출
-    public Map<String, Object> mypostList(Long id){
+    public Map<String, Object> mypostList(Long id, String email){
 
         Map<String, Object> result = new HashMap<>();
         // 내 게시물
-        Optional<User> user = userRepository.findById(id);
-        List<Post> myfeedlist = postRepository.findByUser(user.get());
+        User user = userRepository.findByEmail(email);
+        List<Post> myfeedlist = postRepository.findByUser(user);
         result.put("myfeed", myfeedlist);
 
         // 내 인기 게시물

@@ -30,16 +30,16 @@ public class CalendarController {
     // 일정 추가
     @PostMapping("/addCalendar")
     @ResponseBody
-    public void addSchedule(Long id, String title, String start, String end){
-        calendarservice.addSchedule(id, title, start, end);
+    public void addSchedule(String email, String title, String start, String end){
+        calendarservice.addSchedule(email, title, start, end);
     }
 
     // 일정 달력에 보여주기
     @PostMapping("/calendar")
     @ResponseBody
-    public List<Calendar> showSchedule(Long id){
+    public List<Calendar> showSchedule(String email){
         // System.out.println(email);
-        return calendarservice.showSchedule(id);
+        return calendarservice.showSchedule(email);
     }
 
     // 일정 삭제
