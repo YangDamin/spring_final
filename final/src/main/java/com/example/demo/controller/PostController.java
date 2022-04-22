@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
-import org.springframework.web.bind.annotation.DeleteMapping;
 
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +19,6 @@ import java.util.Optional;
 import javax.servlet.http.HttpSession;
 
 import com.example.demo.model.Post;
-import com.example.demo.model.User;
 import com.example.demo.repository.PostRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.PostService;
@@ -102,6 +99,7 @@ public class PostController {
     @DeleteMapping(value = "/post/delete/{id}")
     public void deletePost(@PathVariable("id") long id){
         postservice.deletePost(id);
+
     }
 
     //글 수정
