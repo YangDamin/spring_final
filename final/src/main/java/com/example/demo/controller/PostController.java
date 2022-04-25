@@ -41,12 +41,16 @@ public class PostController {
     @Autowired
     HttpSession session;
 
+    private List<Post> findByOpen;
+
     //게시물 작성
     @PostMapping("/write")
 
-    public void writeContent(String userEmail, String title, String content, String date, String videoPath, String videothumbnail) {
+    public void writeContent(String userEmail, String title, String content, String date, 
+                            String videoPath, String videothumbnail, int open) {
 
-        postservice.writeContent(userEmail, title, content, date, videoPath, videothumbnail);
+        System.out.println("공개여부:" + open);
+        postservice.writeContent(userEmail, title, content, date, videoPath, videothumbnail, open);
     }
 
     //상세정보
@@ -75,8 +79,9 @@ public class PostController {
     @GetMapping("/posts")
     public List<Post> postList(Long id) {
         Sort sort = Sort.by(Order.desc("id"));
-        List<Post> list = postRepository.findAll(sort);
-        return list;
+        List<Post> openList = postRepository.findByOpen(1, sort);       // open이 1이면 게시물 공개한다는 뜻이다. 공개 게시물을 내림차순으로 정렬하여 return
+        System.out.println(openList);
+        return openList;
 
     }
 

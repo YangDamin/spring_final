@@ -3,7 +3,6 @@ package com.example.demo.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -27,11 +26,13 @@ public class PostService {
     UserRepository userRepository;
 
     //게시물 작성
-    public void writeContent(String userEmail, String title, String content, String date , String videoPath, String videothumbnail){
+    public void writeContent(String userEmail, String title, String content, String date ,
+                                String videoPath, String videothumbnail, int open){
         User findUser = userRepository.findByEmail(userEmail);
 
-        Post post = Post.createPost(findUser, title,content,date,videoPath, videothumbnail);
+        Post post = Post.createPost(findUser, title,content,date,videoPath, videothumbnail, open);
 
+        System.out.println(post.getOpen());
         postRepository.save(post);
     }
 

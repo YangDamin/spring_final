@@ -14,5 +14,5 @@ public interface PostRepository extends JpaRepository<Post, Long>{
     List<Post> findByUserId(Long id, Sort sort);
     public Post findTopByOrderByViewCntDesc();
     List<Post> findByUser(User user);
-    // public void deleteById(Long id);
+    List<Post> findByOpen(int open, Sort sort);
 }
