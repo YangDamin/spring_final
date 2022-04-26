@@ -64,7 +64,8 @@ public class PostController {
         Map<String, Object> result = new HashMap<>();
         result.put("post", opt.get());
         result.put("name", name);
-        
+
+
         return result;
 
     }
@@ -108,10 +109,10 @@ public class PostController {
   // }
 
 
-  @PostMapping("/post/update/{id}")
-  public Post postUpdate(@ModelAttribute Post post,@PathVariable("id") long id) {
+  @PostMapping("/post/update/{postid}")
+  public Post postUpdate(@ModelAttribute Post post,@PathVariable("postid") long postid) {
     User user = (User) session.getAttribute("user_info");
-    post.setId(id);
+    post.setId(postid);
     postRepository.save(post);
     return post;
 
@@ -119,10 +120,10 @@ public class PostController {
 
 
    //삭제
-   @DeleteMapping("/post/delete/{id}")
-   public void postDelete(@PathVariable("id") long id) {
+   @DeleteMapping("/post/delete/{postid}")
+   public void postDelete(@PathVariable("postid") long postid) {
 
-       postRepository.deleteById(id);
+       postRepository.deleteById(postid);
    }
 
 }
