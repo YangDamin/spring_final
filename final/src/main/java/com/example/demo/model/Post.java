@@ -1,8 +1,9 @@
 package com.example.demo.model;
 
-import java.sql.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -37,18 +38,20 @@ public class Post {
     private long viewCnt;
     private boolean open;
     private String videoPath;
+    private String videothumbnail;
 
-   @ManyToOne
+   @ManyToOne(fetch=FetchType.EAGER)
    @JoinColumn(name = "user_id")
    private User user;
 
-    public static Post createPost(User user, String title, String content, String date, String videoPath){
+    public static Post createPost(User user, String title, String content, String date, String videoPath, String videothumbnail){
         Post post = new Post();
         post.setUser(user);
         post.setTitle(title);
         post.setContent(content);
         post.setDate(date);
         post.setVideoPath(videoPath);
+        post.setVideothumbnail(videothumbnail);
         return post;
     }
 

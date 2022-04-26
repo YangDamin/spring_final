@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -23,7 +25,7 @@ public class Calendar {
     private String start;
     private String end;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.EAGER)  //fetch=FetchType.EAGER 해야 아래서부터 삭제되는? 
     @JoinColumn(name = "user_id")
     private User user;
 
