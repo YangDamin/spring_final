@@ -118,6 +118,7 @@ public class PostController {
         modifyPost.setDate(post.getDate());
         modifyPost.setVideoPath(post.getVideoPath());
         modifyPost.setVideothumbnail(post.getVideothumbnail());
+        modifyPost.setOpen(post.getOpen());
 
         postRepository.save(modifyPost);
         
